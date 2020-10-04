@@ -1,26 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Ap extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      user: {},
+      followers: [],
+    };
+  }
+
+  componentDidMount() {
+    axios
+      .get("https://api.github.com/users/xpinero")
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          ...this.state,
+          user: response.data
+        });
+      })
+      .catch((err) => console.log('error', err));
+
+    axios
+      .get("https://api.github.com/users/xpinero/followers")
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          ...this.state,
+          followers: response.data,
+        });
+      })
+      .catch((err) => console.log('error', err));
+  }
+
+  render() {
+    console.log("State:", this.state);
+    return (
+      <div className="App">
+        <div>
+          <h1 className='userName'>{this.state.user.name}</h1>
+        </div>
+        <div>
+          {this.state.user ? ( <img src={this.state.user.avatar_url} /> ) : (
+            <p>Image Loading...</p>
+          )}
+        </div>
+        <div>
+            {this.state.followers.map((followers) => (
+              <p className='followers'>Loyal followers: {followers.login}</p>
+            ))}
+        </div>
+        </div>
+    )
+  }
 }
 
 export default App;
