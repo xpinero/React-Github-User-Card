@@ -1,7 +1,8 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import axios from "axios";
+import "./App.css";
 
-class Ap extends React.Component {
+class App extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -17,10 +18,10 @@ class Ap extends React.Component {
         console.log(response);
         this.setState({
           ...this.state,
-          user: response.data
+          user: response.data,
         });
       })
-      .catch((err) => console.log('error', err));
+      .catch((err) => console.log("error", err));
 
     axios
       .get("https://api.github.com/users/xpinero/followers")
@@ -31,7 +32,7 @@ class Ap extends React.Component {
           followers: response.data,
         });
       })
-      .catch((err) => console.log('error', err));
+      .catch((err) => console.log("error", err));
   }
 
   render() {
@@ -39,20 +40,22 @@ class Ap extends React.Component {
     return (
       <div className="App">
         <div>
-          <h1 className='userName'>{this.state.user.name}</h1>
+          <h1 className="userName">{this.state.user.name}</h1>
         </div>
         <div>
-          {this.state.user ? ( <img src={this.state.user.avatar_url} /> ) : (
+          {this.state.user ? (
+            <img src={this.state.user.avatar_url} alt='user pic'/>
+          ) : (
             <p>Image Loading...</p>
           )}
         </div>
         <div>
-            {this.state.followers.map((followers) => (
-              <p className='followers'>Loyal followers: {followers.login}</p>
-            ))}
+          {this.state.followers.map((followers) => (
+            <p className="followers">Loyal followers: {followers.login}</p>
+          ))}
         </div>
-        </div>
-    )
+      </div>
+    );
   }
 }
 
