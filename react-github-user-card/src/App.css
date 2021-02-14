@@ -1,0 +1,15 @@
+
+ 
+body {
+  background-image: url(./images/tech.png);
+  background-size: cover;
+  height: 50%;
+
+  width: auto;
+}
+
+
+.App {
+  text-align: center;
+}
+
